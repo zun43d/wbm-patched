@@ -18,7 +18,7 @@ const SELECTORS = {
 	QRCODE_DATA: 'div[data-ref]',
 	QRCODE_DATA_ATTR: 'data-ref',
 	SEND_BUTTON: 'div:nth-child(2) > button > span[data-icon="send"]',
-	SENT_TICK: 'div[aria-label=" Sent "]',
+	SENT_TICK: 'span[aria-label=" Sent "]',
 };
 
 /**
@@ -182,9 +182,9 @@ async function sendTo(phoneOrContact, message) {
 			timeout: 60000,
 		});
 		await page.waitForSelector(SELECTORS.SEND_BUTTON, { timeout: 5000 });
+		await page.click(SELECTORS.SEND_BUTTON);
 		await page.keyboard.press('Enter');
-		// await page.waitFor(1000);
-		await page.waitForSelector(SELECTORS.SENT_TICK, { timeout: 5000 });
+		await page.waitForTimeout(2000);
 		process.stdout.clearLine();
 		process.stdout.cursorTo(0);
 		process.stdout.write(`${phone} Sent\n`);
